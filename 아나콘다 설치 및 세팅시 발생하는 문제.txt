@@ -1,0 +1,49 @@
+tensorflow 설치시 문제 
+ERROR: Cannot uninstall 'wrapt'. It is a distutils installed project and thus we cannot accurately 
+determine which files belong to it which would lead to only a partial uninstall.
+
+해결방법
+
+pip3 install wrapt --upgrade --ignore-installed
+pip3 install tensorflow
+
+----------------------------------------------------------------------------------------
+
+ImportError: No module named 'numpy.core._multiarray_umath'
+ImportError: numpy.core.multiarray failed to import
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap>", line 967, in _find_and_load
+SystemError: PyEval_EvalFrameEx returned a result with an error set
+ImportError: numpy.core._multiarray_umath failed to import
+ImportError: numpy.core.umath failed to import
+2019-09-25 10:05:02.777720: F tensorflow/python/lib/core/bfloat16.cc:675] 
+Check failed: PyBfloat16_Type.tp_base !=
+
+문제점:numpy 버전 문제
+해결책:제거 후 재설치
+
+pip uninstall numpy
+pip install numpy
+
+--------------------------------------------------------
+
+dtypes.py:516: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; 
+in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+
+문제점:tensorflow 1.14.0 (또는 tensorflow-gpu 1.12.2)과 numpy 1.17.0의 조합은 경고를 발생. 
+	numpy 버전을 1.16.3으로 변경하면 경고가 사라진다.
+
+pip uninstall numpy
+pip install "numpy<1.17"
+
+--------------------
+
+ERROR: tensorboard 2.0.1 has requirement setuptools>=41.0.0, but you'll have setuptools 40.2.0 which is incompatible.
+ERROR: google-auth 1.7.0 has requirement setuptools>=40.3.0, but you'll have setuptools 40.2.0 which is incompatible.
+
+해결 : pip install "setuptools>=41.0.0"
+
+-------------------------------------------------------------------

@@ -1,0 +1,16 @@
+Django 최초 명령
+
+django-admin startproject mysite
+
+
+settings.py 설정을 변경할때 명령어
+
+mysite
+
+python manage.py migrate
+
+<< 앱 설치 >>
+python manage.py startapp bookmark
+
+<< 모델 설치 >>
+python manage.py makemigrations
