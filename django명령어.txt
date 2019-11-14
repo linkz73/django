@@ -1,7 +1,7 @@
 << Conda 가상환경 실행 >>
 conda activate conEn
 
-<< Django 최초 명령 >>
+<< Django 최초 명령 >> - pycharm community version 에서 실행
 django-admin startproject [web]
 
 << settings.py 설정을 변경 후 적용 >>
@@ -13,7 +13,7 @@ python manage.py createsuperuser
 << 앱 설치 >>
 python manage.py startapp [bookmark]
 
-<< 모델 설치 >>
+<< 모델 설치 : 테이블 생성 >>
 python manage.py makemigrations
 
 << django 서버 시작 >>
