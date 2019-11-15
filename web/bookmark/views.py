@@ -1,7 +1,16 @@
 from django.shortcuts import render
-
-# Create your views here.
+# generic 의 기존 view를 상속받음
+from django.views.generic import ListView, DetailView
+from .models import Bookmark
 from django.http import HttpResponse
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the 북마크 index.")
+class BookmarkLV(ListView):
+    model = Bookmark
+
+
+class BookmarkDV(DetailView):
+    model = Bookmark
+
+#
+# def index(request):
+#     return HttpResponse("Hello, world. You're at the 북마크 index.")
