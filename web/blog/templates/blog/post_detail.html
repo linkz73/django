@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog Detail</title>
+</head>
+<body>
+    <div id="content">
+        <h2>{{ object.title }}</h2>
+        <hr>
+        <p class="other_posts" style="display:block; padding:0 1em 1em">
+            {% if object.get_previous_by_modify_date %}
+            <a href="{{ object.get_previous_post.get_absolute_url }}" title="View Previous Post" style="float:left;">
+                &laquo;-- {{ object.get_previous_post }}
+            </a>
+            {% endif %}
+
+            {% if object.get_next_by_modify_date %}
+            <a href="{{ object.get_next_post.get_absolute_url }}" title="View Next Post" style="float:right">
+                {{ object.get_next_post }} --&raquo;
+            </a>
+            {% endif %}
+        </p>
+        <hr style="clear:both; display:block">
+        <p class="date">{{ object.modify_date|date:"j F Y" }}</p>
+        <br>
+        <div class="body">
+            {{ object.content|linebreaks }}
+        </div>
+    </div>
+</body>
+</html>

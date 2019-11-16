@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Archive</title>
+</head>
+<body>
+    <div id="content">
+        <h1>Post Archive for {{ month|date:"N, Y" }}</h1>
+
+        <ul>
+            {% for date in date_list %}
+                <li style="display:inline-block; margin-right:1em">
+                    <a href="{% url 'blog:post_day_archive' date|date:'Y' date|date:'m' date|date:'d' %}">
+                        {{ date|date:'m-d' }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div>
+            <ul>
+                {% for post in object_list %}
+                    <li>
+                        {{ post.modify_date|date:'Y-m-d' }}&nbsp;
+                        <a href="{{ post.get_absolute_url }}"><strong>{{ post.title }}</strong></a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>

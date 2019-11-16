@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView
 from .models import Bookmark
 from django.http import HttpResponse
 
+
 class BookmarkLV(ListView):
     model = Bookmark
 

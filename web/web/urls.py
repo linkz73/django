@@ -19,14 +19,14 @@ from django.urls import path, include
 # from django.views.generic import ListView, DetailView
 # from bookmark.models import Bookmark
 # from bookmark.views import BookmarkLV, BookmarkDV
+from web.views import HomeView  # 홈 뷰 등록
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('bookmark/', include('bookmark.urls')),
-    path('blog/', include('blog.urls')),
-    # path('bookmark/', BookmarkLV.as_view(model=Bookmark), name='index'),
-    # path('bookmark/<int:pk>/', BookmarkDV.as_view(model=Bookmark), name='detail'),
-    path('polls/', include('polls.urls')),
+    path('', HomeView.as_view(), name='home'),  # 홈 뷰 추가
+    path('bookmark/', include('bookmark.urls',), name='bookmark'),
+    path('blog/', include('blog.urls',), name='blog'),
+    path('polls/', include('polls.urls',), name='polls'),
 ]
 
 if settings.DEBUG:

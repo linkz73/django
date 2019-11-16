@@ -15,7 +15,7 @@ class Post(models.Model):
     modify_date = models.DateTimeField('MODIFY DATE', auto_now=True)
 
     class Meta:
-        verbose_name = 'post'
+        verbose_name = 'post'  # 이 이름을 이용해서 표시 가능
         verbose_name_plural = 'posts'
         db_table = 'my_post'
         ordering = ('-modify_date',)
@@ -24,7 +24,8 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog:post.detail', args=(self.slug))
+        return reverse('blog:post_detail', args=(self.slug,))
+        # return reverse('blog:post_detail', kwargs={'slug': self.slug})
 
     def get_previous_post(self):
         return self.get_previous_by_modify_date()
