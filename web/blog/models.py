@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
+from tagging.fields import TagField
 # 1,3번 설정으로 python2 환경에서도 보이게 함.
 
 
@@ -13,6 +14,7 @@ class Post(models.Model):
     content = models.TextField('CONTENT')
     create_date = models.DateTimeField('CREATE DATE', auto_now_add=True)
     modify_date = models.DateTimeField('MODIFY DATE', auto_now=True)
+    tag = TagField()
 
     class Meta:
         verbose_name = 'post'  # 이 이름을 이용해서 표시 가능

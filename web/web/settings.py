@@ -41,7 +41,14 @@ INSTALLED_APPS = [
     'bookmark.apps.BookmarkConfig',
     'debug_toolbar',
     'blog.apps.BlogConfig',
+    'tagging.apps.TaggingConfig',
+    'disqus',
+    'django.contrib.sites',
 ]
+
+# Disqus 설정
+DISQUS_WEBSITE_SHORTNAME = 'mydjangosite-2'
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
