@@ -19,4 +19,11 @@ urlpatterns = [
     path('today/', PostTAV.as_view(), name='post_today_archive'),
     path('tag/', TagTV.as_view(), name='tag_cloud'),
     path('tag/<str:tag>/', PostOV.as_view(), name='tagged_object_list'),
+    # .../blog/search/
+    path('search/', SearchFormView.as_view(), name='search'),
+
+    path('add/', PostCreateView.as_view(), name='add'),
+    path('change/', PostChangeLV.as_view(), name='change'),
+    path('update/<int:pk>/', PostUpdateView.as_view(), name='update'),
+    path('delete/<int:pk>/', PostDeleteView.as_view(), name='delete')
 ]

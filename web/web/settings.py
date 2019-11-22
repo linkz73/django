@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'tagging.apps.TaggingConfig',
     'disqus',
     'django.contrib.sites',
+    'photo.apps.PhotoConfig'
 ]
 
 # Disqus 설정
@@ -138,3 +139,5 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+LOGIN_REDIRECT_URL = '/'

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Photo Detail{% endblock %}
+{% load staticfiles %}
+{% block extrastyle %}{% static "css/photo.css" %}{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <h2>{{ object.title }}</h2>
+
+        <table class="photo-detail">
+            <tr>
+                <td>
+                    <a href="{{ object.image_url }}">
+                        <img style="max-width:100%" src="{{ object.image.url }}">
+                    </a>
+                </td>
+                <td>
+                    <ul>
+                        <li>Photo Description</li>
+                        {% if object.description %}<p>{{ object.description|linebreaks }}</p>
+                        {% else %}<p>(blank)</p>{% endif %}
+                        <li>Date Uploaded</li>
+                        <p>{{ object.upload_date }}</p>
+                        <li>Album Name</li>
+                        <p><a href="{% url 'photo:album_detail' object.album.id %}">
+                            {{ object.album.name }}
+                        </a></p>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock content %}
+
+{% block footer %}
+    <div id="footer">&copy; Django for Python 2019.</div>
+{% endblock %}

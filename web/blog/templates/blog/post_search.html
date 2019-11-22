@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Pos search.html {% endblock %}
+{% block content %}
+    <div id="content">
+        <h1>Blog Search</h1>
+        <!-- csrf_token 을 통해 크로스사이트 공격을 방어할 수 있음. -->
+        <form action="." method="post">{% csrf_token %}
+            {{ form.as_table }}
+            <input type="submit" value="Submit">
+        </form>
+        <br><br>
+
+        {% if object_list %}
+            {% for post in object_list %}
+                <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                <p>{{ post.description }}</p>
+            {% endfor %}
+        {% elif search_term %}
+            <b><i>Search Word({{ search_term }}) is Not Found !</i></b>
+        {% endif %}
+    </div>
+{% endblock %}

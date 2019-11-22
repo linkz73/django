@@ -16,15 +16,22 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
-from .views import HomeView  # 홈 뷰 등록
+from django.conf.urls.static import static
+from .views import HomeView  # 홈 뷰
+from .views import UserCreateView, UserCreateDoneTV
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/register/', UserCreateView.as_view(), name='register'),
+    path('accounts/register/done/', UserCreateDoneTV.as_view(), name='register_done'),
+
     path('', HomeView.as_view(), name='home'),  # 홈 뷰 추가
     path('bookmark/', include('bookmark.urls',), name='bookmark'),
     path('blog/', include('blog.urls',), name='blog'),
+    path('photo/', include('photo.urls',), name='photo'),
     path('polls/', include('polls.urls',), name='polls'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar

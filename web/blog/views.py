@@ -1,10 +1,19 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView, TemplateView, FormView
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView
 from django.views.generic.dates import DayArchiveView, TodayArchiveView
+
 from .models import Post
 from tagging.models import Tag, TaggedItem
 from tagging.views import TaggedObjectList
+
+from .forms import PostSearchForm
+from django.db.models import Q
+from django.shortcuts import render
+
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from web.views import LoginRequiredMixin
+
 
 class PostLV(ListView):
     model = Post
@@ -53,3 +62,49 @@ class TagTV(TemplateView):
 class PostOV(TaggedObjectList):
     model = Post
     template_name = 'tagging/tagging_post_list.html'
+
+
+class SearchFormView(FormView):
+    form_class = PostSearchForm
+    template_name = "blog/post_search.html"
+
+    def form_valid(self, form):
+        schWord = "%s" % self.request.POST['search_word']
+        post_list = Post.objects.filter(Q(title__icontains=schWord) |
+                                        Q(description__icontains=schWord) |
+                                        Q(content__icontains=schWord)).distinct()
+        context = {}
+        context['form'] = form
+        context['search_term'] = schWord
+        context['object_list'] = post_list
+
+        return render(self.request, self.template_name, context)  # No redirection
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['title', 'slug', 'description', 'content', 'tag']
+    initial = {'slug': 'auto-filling-do-not-input'}
+    success_url = reverse_lazy('blog:index')
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(PostCreateView, self).form_valid(form)
+
+
+class PostChangeLV(LoginRequiredMixin, ListView):
+    template_name = 'blog/post_change_list.html'
+
+    def get_queryset(self):
+        return Post.objects.filter(owner=self.request.user)
+
+
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Post
+    fields = ['title', 'slug', 'description', 'content', 'tag']
+    success_url = reverse_lazy('blog:index')
+
+
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:index')
