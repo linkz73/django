@@ -4,7 +4,7 @@ from .models import Album, Photo
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from web.views import LoginRequiredMinxin
+from web.views import LoginRequiredMixin
 
 
 class AlbumLV(ListView):
@@ -19,7 +19,7 @@ class PhotoDV(DetailView):
     model = Photo
 
 
-class PhotoCreateView(LoginRequiredMinxin, CreateView):
+class PhotoCreateView(LoginRequiredMixin, CreateView):
     model = Photo
     fields = ['album', 'title', 'image', 'description']
     success_url = reverse_lazy('photo:index')
@@ -29,33 +29,33 @@ class PhotoCreateView(LoginRequiredMinxin, CreateView):
         return super(PhotoCreateView, self).form_valid(form)
 
 
-class PhotoChangeLV(LoginRequiredMinxin, ListView):
+class PhotoChangeLV(LoginRequiredMixin, ListView):
     # model = Photo
-    template_name = 'photo/poto_change_list.html'
+    template_name = 'photo/photo_change_list.html'
 
     def get_queryset(self):
         return Photo.objects.filter(owner=self.request.user)
 
 
-class PhotoUpdateView(LoginRequiredMinxin, UpdateView):
+class PhotoUpdateView(LoginRequiredMixin, UpdateView):
     model = Photo
     fields = ['album', 'title', 'image', 'description']
     success_url = reverse_lazy('photo:index')
 
 
-class PhotoDeleteView(LoginRequiredMinxin, DeleteView):
+class PhotoDeleteView(LoginRequiredMixin, DeleteView):
     model = Photo
     success_url = reverse_lazy('photo:index')
 
 
-class AlbumChangeLV(LoginRequiredMinxin, ListView):
+class AlbumChangeLV(LoginRequiredMixin, ListView):
     template_name = 'photo/album_change_list.html'
 
     def get_queryset(self):
         return Album.objects.filter(owner=self.request.user)
 
 
-class AlbumDeleteView(LoginRequiredMinxin, DeleteView):
+class AlbumDeleteView(LoginRequiredMixin, DeleteView):
     model = Album
     success_url = reverse_lazy('photo:index')
 
@@ -64,7 +64,7 @@ from django.shortcuts import redirect
 from .forms import PhotoInlineFormSet
 
 
-class AlbumPhotoCV(LoginRequiredMinxin, CreateView):
+class AlbumPhotoCV(LoginRequiredMixin, CreateView):
     model = Album
     fields = ['name', 'description']
     template_name = 'photo/album_form.html'
@@ -88,12 +88,12 @@ class AlbumPhotoCV(LoginRequiredMinxin, CreateView):
             self.object = form.save()
             formset.instance = self.object
             formset.save()
-            return redirect(self.object.get_absolute.url())
+            return redirect(self.object.get_absolute_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
 
 
-class AlbumPhotoUV(LoginRequiredMinxin, UpdateView):
+class AlbumPhotoUV(LoginRequiredMixin, UpdateView):
     model = Album
     fields = ['name', 'description']
 
@@ -102,7 +102,7 @@ class AlbumPhotoUV(LoginRequiredMinxin, UpdateView):
         if self.request.POST:
             context['formset'] = PhotoInlineFormSet(self.request.POST, self.request.FILES, instance=self.object)
         else:
-            context['formset'] = PhotoInlineFormSet(instance=self.obect)
+            context['formset'] = PhotoInlineFormSet(instance=self.object)
         return context
 
     def form_valid(self, form):

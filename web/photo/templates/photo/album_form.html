@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Album Form{% endblock %}
+{% load staticfiles %}
+{% block extrastyle %}{% static 'css/form.css' %}{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <h1>Album - Photo InlineFormSet</h1>
+
+        {% if form.is_multipart or formset.is_multipart %}
+        <form enctype="multipart/form-data" action="." method="post">
+        {% else %}
+        <form action="." method="post">
+        {% endif %}
+        {% csrf_token %}
+
+            {% if form.errors %}
+            <p class="errornote">Wrong! Please correct the FORM errors below.</p>
+            {% endif %}
+            {% if formset.errors %}
+            <p class="errornote">Wrong! Please correct the FORMSET errors below.</p>
+            {% endif %}
+
+            <h4>Create or Update Album contents.</h4>
+
+            <fieldset class="aligned">
+                <div class="form-group">
+                    {{ form.name.label_tag }} {{ form.name }}
+                </div>
+                <div class="form-group">
+                    {{ form.description.label_tag }} {{ form.description }}
+                </div>
+            </fieldset>
+
+            <h4>Create or Update Photo contents.</h4>
+
+            {{ formset.management_form }}
+            {% for form in formset %}
+                {{ form.id }}
+            <fieldset class="aligned">
+                <div class="form-group">
+                    {{ form.image.label_tag }} {{ form.image }}
+                </div>
+                <div class="form-group">
+                    {{ form.title.label_tag }} {{ form.title }}
+                </div>
+                <div class="form-group">
+                    {{ form.description.label_tag }} {{ form.description }}
+                </div>
+            </fieldset>
+            {% endfor %}
+
+            <div class="submit-row">
+                <input type="submit" class="btn btn-primary" value="Submit">
+            </div>
+
+            <script type="text/javascript">
+                document.getElementById('id_name').focus();
+            </script>
+        </form>
+    </div>
+{% endblock content %}
+
+{% block footer %}
+    <div id="footer">&copy; Django for Python 2019.</div>
+{% endblock %}
