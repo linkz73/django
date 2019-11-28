@@ -37,3 +37,9 @@ python 선택
 1. name : django
 2. script : manage.py path 에서 선택
 3. parameter : runserver
+
+===========================================================
+아나콘다 prompt 창에서 설치. python 3.5 환경 그대로 설치.
+
+
+conda install -c bioconda mysqlclient
